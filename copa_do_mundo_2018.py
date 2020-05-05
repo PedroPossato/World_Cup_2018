@@ -1,19 +1,35 @@
 from math import e
 from random import randint, shuffle
-from time import sleep
+from time import sleep, time
+
+while True:
+    a = input("Qual modo deseja jogar? [COPA DO MUNDO] = 0 | [SIMULACOES] = 1\n")
+    if a == '0' or a == '1':
+        break
+    else:
+        print("Valor invalido! Tente novamente...")
+a = int(a)
+lightSpeed = False
+if a:
+    lightSpeed = True
 
 times =     ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
 atk =       [ 2.02,      1.56,       0.69,               0.71,       1.56,       1.63,       0.6,    0.87,       1.82,       1.5,            1.17,   0.81,           1.5,        1.69,           1.1,        0.67,       2.12,       1.32,       1.56,       1.06,           1.57,       1.05,       0.97,               2.07,       1.13,       1.32,           0.87,       0.67,       1.45,       0.95,       1.25,       1.35       ]
 defense =   [ 1.09,      1.33,       2.44,               1.71,       1.14,       1.17,       1.6,    1.38,       1.23,       1.25,           1.83,   1.94,           1,          1.1,            1.43,       1.67,       1.06,       1.84,       1.33,       1.56,           1.43,       1.7,        2.03,               1.15,       1.8,        1.03,           1.67,       3.67,       1.36,       1.38,       1.13,       1.38       ]
 vogal =     [ 'o',       'a',        'a',                'o',        'a',        'a',        'o',    'o',        'a',        'a',            'o',    'a',            'a',        'a',            'a',        'a',        'o',        'a',        'a',        'a',            'a',        'o',        'a',                'a',        'a',        'a',            'a',        'o',        'a',        'o',        'o',        'a'        ]
+
 gramaticaCampeao = []
 for letra in vogal:
     if letra == 'a':
         gramaticaCampeao.append('')
     else:
         gramaticaCampeao.append('o')
-pontos = []
 
+vezesCampeao = []
+for num in times:
+    vezesCampeao.append(0)
+
+pontos = []
 for i in times:
     pontos.append(0)
 
@@ -30,11 +46,15 @@ for i in range(0,len(times),4):
 golsMedios = 1.4
 
 while True:
-    gameMode = input("Escolha modo de jogo: [PADRAO] = 0 | [TURBO] = 1\n")
-    if gameMode == '0' or gameMode == '1':
+    if lightSpeed:
+        gameMode = 1
         break
     else:
-        print("Valor invalido! Tente novamente...\n")
+        gameMode = input("Escolha modo de jogo: [PADRAO] = 0 | [TURBO] = 1\n")
+        if gameMode == '0' or gameMode == '1':
+            break
+        else:
+            print("Valor invalido! Tente novamente...\n")
 gameMode = int(gameMode)
 
 def order_map(key, value, x = 2):
@@ -123,9 +143,10 @@ def poisson(A, B, extraTime = False):
     return golsA, golsB
 
 def match(A, B, knockOut = True, grupo = []):
-    print("\n========================================================================================================================\n")
-    print("\nPARTIDA:", A.upper(), "x", B.upper())
-    print()
+    if not lightSpeed:
+        print("\n========================================================================================================================\n")
+        print("\nPARTIDA:", A.upper(), "x", B.upper())
+        print()
     if not gameMode:
         sleep(1.5)
     golsA, golsB = poisson(A, B)
@@ -151,10 +172,12 @@ def match(A, B, knockOut = True, grupo = []):
                 placarB += 1
             else:
                 placarA += 1
-            goalEvent(A, B, sideScoring[count], placarA, placarB, tempo)
+            if not lightSpeed:
+                goalEvent(A, B, sideScoring[count], placarA, placarB, tempo)
             count += 1
         else:
-            otherEvents(A, B, tempo)
+            if not lightSpeed:
+                otherEvents(A, B, tempo)
         if not gameMode:
             sleep(0.1)
     if not knockOut:
@@ -172,30 +195,42 @@ def match(A, B, knockOut = True, grupo = []):
         if golsA > golsB:
             if len(eliminatorias) > 29:
                 index = findIndex(A)
-                print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+                if not lightSpeed:
+                    print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+                else:
+                    vezesCampeao[index] += 1
             else:
                 eliminatorias.append(A)
-                print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+                if not lightSpeed:
+                    print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
         elif golsB > golsA:
             if len(eliminatorias) > 29:
                 index = findIndex(B)
-                print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+                if not lightSpeed:
+                    print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+                else:
+                    vezesCampeao[index] += 1
             else:
                 eliminatorias.append(B)
-                print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+                if not lightSpeed:
+                    print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
         else:
-            print("FIM DO TEMPO REGULAMENTAR! VAMOS PARA A PRORROGACAO!\n")
+            if not lightSpeed:
+                print("FIM DO TEMPO REGULAMENTAR! VAMOS PARA A PRORROGACAO!\n")
             prorrogacao(A, B, placarA, placarB)
     
-    print("FINAL DE PARTIDA:",A.upper(),golsA,'x',golsB,B.upper())
+    if not lightSpeed:
+        print("FINAL DE PARTIDA:",A.upper(),golsA,'x',golsB,B.upper())
     if not knockOut:
         showTable(grupo)
     if not gameMode:
         input("\nPartida terminada. Pressione ENTER para continuar...")
-    print()
+    if not lightSpeed:
+        print()
 
 def prorrogacao(A, B, placarA, placarB):
-    print("PRORROGACAO!\n")
+    if not lightSpeed:
+        print("PRORROGACAO!\n")
     if not gameMode:
         sleep(1.5)
     golsA, golsB = poisson(A, B, True)
@@ -219,28 +254,39 @@ def prorrogacao(A, B, placarA, placarB):
                 placarB += 1
             else:
                 placarA += 1
-            goalEvent(A, B, sideScoring[count], placarA, placarB, tempo)
+            if not lightSpeed:
+                goalEvent(A, B, sideScoring[count], placarA, placarB, tempo)
             count += 1
         else:
-            otherEvents(A, B, tempo)
+            if not lightSpeed:
+                otherEvents(A, B, tempo)
         if not gameMode:
             sleep(0.1)
     if golsA > golsB:
         if len(eliminatorias) > 29:
             index = findIndex(A)
-            print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            if not lightSpeed:
+                print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            else:
+                vezesCampeao[index] += 1
         else:
             eliminatorias.append(A)
-            print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+            if not lightSpeed:
+                print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
     elif golsB > golsA:
         if len(eliminatorias) > 29:
             index = findIndex(B)
-            print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            if not lightSpeed:
+                print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            else:
+                vezesCampeao[index] += 1
         else:
             eliminatorias.append(B)
-            print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+            if not lightSpeed:
+                print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
     else:
-        print("FIM DA PRORROGACAO! O JOGO SERA DECIDIDO NOS PENALTIS! HAJA CORACAO!\n")
+        if not lightSpeed:
+            print("FIM DA PRORROGACAO! O JOGO SERA DECIDIDO NOS PENALTIS! HAJA CORACAO!\n")
         penaltis(A, B)
 
 def penaltis(A, B):
@@ -263,27 +309,38 @@ def penaltis(A, B):
     if placarPenaltiA > placarPenaltiB:
         if len(eliminatorias) > 29:
             index = findIndex(A)
-            print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            if not lightSpeed:
+                print(A,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            else:
+                vezesCampeao[index] += 1
         else:
             eliminatorias.append(A)
-            print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+            if not lightSpeed:
+                print(A,"SE CLASSIFICOU PARA A PROXIMA FASE!")
     else:
         if len(eliminatorias) > 29:
             index = findIndex(B)
-            print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            if not lightSpeed:
+                print(B,"EH {} CAMPEA{} DA COPA DO MUNDO!".format(vogal[index].upper(), gramaticaCampeao[index].upper()))
+            else:
+                vezesCampeao[index] += 1
         else:
             eliminatorias.append(B)
-            print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
+            if not lightSpeed:
+                print(B,"SE CLASSIFICOU PARA A PROXIMA FASE!")
 
 def cobraPenalti(time):
-    print("{} VAI COBRAR O PENALTI...".format(time.upper()))
+    if not lightSpeed:
+        print("{} VAI COBRAR O PENALTI...".format(time.upper()))
     if not gameMode:
         sleep(1)
     rnd = randint(1,10)
     if rnd < 4:
-        print("PERDEU!\n")
+        if not lightSpeed:
+            print("PERDEU!\n")
         return False
-    print("GOOOOL!\n")
+    if not lightSpeed:
+        print("GOOOOL!\n")
     return True
 
 def otherEvents(A, B, tempo):
@@ -337,9 +394,10 @@ def showTable(grupo):
         timesGrupo = [grupo[0], grupo[1], grupo[2], grupo[3]]
         pontosGrupo = [pontos[indexInicial], pontos[indexInicial+1], pontos[indexInicial+2], pontos[indexInicial+3]]
         order_map(timesGrupo, pontosGrupo, 1)
-        print()
-        for i in range(4):
-            print("{}:\t{} pts ->\t{}".format(i+1,pontosGrupo[i],timesGrupo[i]))
+        if not lightSpeed:
+            print()
+            for i in range(4):
+                print("{}:\t{} pts ->\t{}".format(i+1,pontosGrupo[i],timesGrupo[i]))
     except:
         pass
 
@@ -350,10 +408,12 @@ def avanco(grupo):
     order_map(timesGrupo, pontosGrupo, 1)
     eliminatorias.append(timesGrupo[0])
     eliminatorias.append(timesGrupo[1])
-    print("{} e {} avancaram pras oitavas de final!\n\n".format(timesGrupo[0], timesGrupo[1]))
+    if not lightSpeed:
+        print("{} e {} avancaram pras oitavas de final!\n\n".format(timesGrupo[0], timesGrupo[1]))
     if not gameMode:
         input("\nPressione ENTER para continuar...")
-    print()
+    if not lightSpeed:
+        print()
 
 def playGrupo(grupo):
     match(grupo[0], grupo[1], False, grupo)
@@ -373,46 +433,81 @@ def playOitavas(grupo):
     match(grupo[9], grupo[10])
     match(grupo[12], grupo[15])
     match(grupo[13], grupo[14])
-    print("AVANCAM PARA AS QUARTAS:")
-    for i in range(16,24):
-        print(grupo[i])
-    print("\n\n\n")
+    if not lightSpeed:
+        print("AVANCAM PARA AS QUARTAS:")
+        for i in range(16,24):
+            print(grupo[i])
+        print("\n\n\n")
 
 def playQuartas(grupo):
     match(grupo[16], grupo[17])
     match(grupo[18], grupo[19])
     match(grupo[20], grupo[21])
     match(grupo[22], grupo[23])
-    print("AVANCAM PARA A SEMI:")
-    for i in range(24,28):
-        print(grupo[i])
-    print("\n\n\n")
+    if not lightSpeed:
+        print("AVANCAM PARA A SEMI:")
+        for i in range(24,28):
+            print(grupo[i])
+        print("\n\n\n")
 
 def playSemi(grupo):
     match(grupo[24], grupo[25])
     match(grupo[26], grupo[27])
-    print("AVANCAM PARA A GRANDE FINAL:")
-    for i in range(28,30):
-        print(grupo[i])
-    print("\n\n\n")
+    if not lightSpeed:
+        print("AVANCAM PARA A GRANDE FINAL:")
+        for i in range(28,30):
+            print(grupo[i])
+        print("\n\n\n")
 
 def playFinal(grupo):
     match(grupo[28], grupo[29])
 
-#match(input("Time A: "), input("Time B: "))
+if lightSpeed:
+    while True:
+        numSimuls = input("Quantas simulacoes rodar? ")
+        try:
+            numSimuls = int(numSimuls)
+            if numSimuls > 0:
+                inicio = time()
+                break
+            else:
+                print("Valor invalido! Tente novamente...")
+        except:
+            print("Valor invalido! Tente novamente...")
+    
+else:
+    numSimuls = 1
 
-print("Comeca a COPA DO MUNDO!\n")
-contaGrupo = 0
-for grupo in grupos:
-    print("\nINICIO DO GRUPO {}!\n".format(nomeGrupos[contaGrupo]))
-    playGrupo(grupo)
-    contaGrupo += 1
+for i in range(numSimuls):
+    pontos = []
+    for i in times:
+        pontos.append(0)
+    eliminatorias = []
 
-print("\nCOMECAM AS OITAVAS DE FINAL!\n")
-playOitavas(eliminatorias)
-print("\nCOMECAM AS QUARTAS DE FINAL!\n")
-playQuartas(eliminatorias)
-print("\nCOMECA A SEMI FINAL!\n")
-playSemi(eliminatorias)
-print("\nCOMECA A FINAL!\n")
-playFinal(eliminatorias)
+    if not lightSpeed:
+        print("Comeca a COPA DO MUNDO!\n")
+    contaGrupo = 0
+    for grupo in grupos:
+        if not lightSpeed:
+            print("\nINICIO DO GRUPO {}!\n".format(nomeGrupos[contaGrupo]))
+        playGrupo(grupo)
+        contaGrupo += 1
+
+    if not lightSpeed:
+        print("\nCOMECAM AS OITAVAS DE FINAL!\n")
+    playOitavas(eliminatorias)
+    if not lightSpeed:
+        print("\nCOMECAM AS QUARTAS DE FINAL!\n")
+    playQuartas(eliminatorias)
+    if not lightSpeed:
+        print("\nCOMECA A SEMI FINAL!\n")
+    playSemi(eliminatorias)
+    if not lightSpeed:
+        print("\nCOMECA A FINAL!\n")
+    playFinal(eliminatorias)
+
+if lightSpeed:
+    order_map(times, vezesCampeao, 1)
+    print("Numero de Simulacoes realizadas: {}\nTempo de execucao: {:.2f} segundos".format(numSimuls, time() - inicio))
+    for i in range(len(times)):
+        print("{}:\t{}x campeao ->\t{}".format(i+1, vezesCampeao[i], times[i]))
