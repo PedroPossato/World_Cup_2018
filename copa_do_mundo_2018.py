@@ -184,12 +184,14 @@ def match(A, B, knockOut = True, grupo = []):
         indexA = findIndex(A)
         indexB = findIndex(B)
         if golsA > golsB:
-            pontos[indexA] += 3
+            pontos[indexA] = pontos[indexA] + 3 + 0.01*(golsA-golsB) + 0.0001*golsA
+            pontos[indexB] = pontos[indexB] + 0.25 + 0.01*(golsB-golsA) + 0.0001*golsB
         elif golsB > golsA:
-            pontos[indexB] += 3
+            pontos[indexB] = pontos[indexB] + 3 + 0.01*(golsB-golsA) + 0.0001*golsB
+            pontos[indexA] = pontos[indexA] + 0.25 + 0.01*(golsA-golsB) + 0.0001*golsA
         else:
-            pontos[indexA] +=1
-            pontos[indexB] +=1
+            pontos[indexA] = pontos[indexA] + 1 + 0.0001*golsA
+            pontos[indexB] = pontos[indexB] + 1 + 0.0001*golsB
 
     else:
         if golsA > golsB:
@@ -397,7 +399,7 @@ def showTable(grupo):
         if not lightSpeed:
             print()
             for i in range(4):
-                print("{}:\t{} pts ->\t{}".format(i+1,pontosGrupo[i],timesGrupo[i]))
+                print("{}: {:.0f} pts ->\t{}".format(i+1,pontosGrupo[i],timesGrupo[i]))
     except:
         pass
 
@@ -409,7 +411,7 @@ def avanco(grupo):
     eliminatorias.append(timesGrupo[0])
     eliminatorias.append(timesGrupo[1])
     if not lightSpeed:
-        print("{} e {} avancaram pras oitavas de final!\n\n".format(timesGrupo[0], timesGrupo[1]))
+        print("{} e {} avancaram pras oitavas de final!".format(timesGrupo[0], timesGrupo[1]))
     if not gameMode:
         input("\nPressione ENTER para continuar...")
     if not lightSpeed:
