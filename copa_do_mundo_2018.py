@@ -45,7 +45,7 @@ for i in range(0,len(times),4):
     grupos[i//4].append(times[i+2])
     grupos[i//4].append(times[i+3])
     
-golsMedios = 1.466
+golsMedios = 2 * sum(atk)/len(atk) * sum(defense)/len(defense) / 2.64
 
 while True:
     if lightSpeed:
