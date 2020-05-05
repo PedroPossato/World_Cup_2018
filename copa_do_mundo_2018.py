@@ -12,6 +12,8 @@ a = int(a)
 lightSpeed = False
 if a:
     lightSpeed = True
+gols = 0
+jogos = 0
 
 times =     ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
 atk =       [ 2.02,      1.56,       0.69,               0.71,       1.56,       1.63,       0.6,    0.87,       1.82,       1.5,            1.17,   0.81,           1.5,        1.69,           1.1,        0.67,       2.12,       1.32,       1.56,       1.06,           1.57,       1.05,       0.97,               2.07,       1.13,       1.32,           0.87,       0.67,       1.45,       0.95,       1.25,       1.35       ]
@@ -43,7 +45,7 @@ for i in range(0,len(times),4):
     grupos[i//4].append(times[i+2])
     grupos[i//4].append(times[i+3])
     
-golsMedios = 1.4
+golsMedios = 1.466
 
 while True:
     if lightSpeed:
@@ -223,6 +225,10 @@ def match(A, B, knockOut = True, grupo = []):
     
     if not lightSpeed:
         print("FINAL DE PARTIDA:",A.upper(),golsA,'x',golsB,B.upper())
+    else:
+        global jogos, gols
+        jogos += 1
+        gols = gols + golsA + golsB
     if not knockOut:
         showTable(grupo)
     if not gameMode:
@@ -511,5 +517,6 @@ for i in range(numSimuls):
 if lightSpeed:
     order_map(times, vezesCampeao, 1)
     print("Numero de Simulacoes realizadas: {}\nTempo de execucao: {:.2f} segundos".format(numSimuls, time() - inicio))
+    print("Media de gols por jogo: {:.2f}".format(gols/(jogos*1.0)))
     for i in range(len(times)):
         print("{}:\t{}x campeao ->\t{}".format(i+1, vezesCampeao[i], times[i]))
