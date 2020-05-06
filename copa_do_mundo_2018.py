@@ -1,24 +1,35 @@
-from math import e
+from math import e, sqrt
 from random import randint, shuffle
 from time import sleep, time
 
-while True:
-    a = input("Qual modo deseja jogar? [COPA DO MUNDO] = 0 | [SIMULACOES] = 1\n")
-    if a == '0' or a == '1':
-        break
-    else:
-        print("Valor invalido! Tente novamente...")
-a = int(a)
-lightSpeed = False
-if a:
+debug = True
+if debug:
     lightSpeed = True
+else:
+    while True:
+        a = input("Qual modo deseja jogar? [COPA DO MUNDO] = 0 | [SIMULACOES] = 1\n")
+        if a == '0' or a == '1':
+            break
+        else:
+            print("Valor invalido! Tente novamente...")
+    a = int(a)
+    lightSpeed = False
+    if a:
+        lightSpeed = True
 gols = 0
 jogos = 0
 
-times =     ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
-atk =       [ 2.1,       1.62,       0.72,               0.74,       1.62,       1.7,        0.62,   0.9,        1.89,       1.56,           1.22,   0.84,           1.56,       1.76,           1.14,       0.7,        2.21,       1.37,       1.62,       1.1,            1.63,       1.09,       1.01,               2.15,       1.18,       1.37,           0.9,        0.7,        1.51,       0.99,       1.3,        1.4        ]
-defense =   [ 0.94,      1.15,       2.11,               1.48,       0.99,       1.01,       1.38,   1.19,       1.06,       1.08,           1.58,   1.68,           0.87,       0.95,           1.24,       1.44,       0.92,       1.59,       1.15,       1.35,           1.24,       1.47,       1.76,               0.99,       1.56,       0.89,           1.44,       3.17,       1.18,       1.19,       0.98,       1.19       ]
-vogal =     [ 'o',       'a',        'a',                'o',        'a',        'a',        'o',    'o',        'a',        'a',            'o',    'a',            'a',        'a',            'a',        'a',        'o',        'a',        'a',        'a',            'a',        'o',        'a',                'a',        'a',        'a',            'a',        'o',        'a',        'o',        'o',        'a'        ]
+if debug:
+    meta =      [237,       196,        11,                 53,         1150,       383,        16,     32,         1150,       99,             40,     20,             237,        805,            53,         40,         1788,       99,         53,         20,             80,         99,         16,                 1610,       732,        473,            16,         11,         237,        32,         53,         158         ]
+times =         ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
+power =         [1.405,     1.34,       0.79,               0.992,      2.201,      1.581,      0.753,  0.897,      2.174,      1.147,          1.001,  0.851,          1.425,      1.989,          1.042,      0.95,       2.532,      1.176,      1.056,      0.871,          1.151,      1.18,       0.87,               2.41,       1.86,       1.66,           0.781,      0.801,      1.408,      0.903,      1.004,      1.264       ]
+offensiveness = [1.97,      1.86,       1.52,               1.1,        1.6,        1.72,       0.86,   1.07,       2,          1.68,           1.93,   1.41,           1.36,       1.67,           1.41,       1.01,       2.03,       2.18,       1.86,       1.49,           2.02,       1.6,        1.78,               2.14,       1.84,       1.22,           1.3,        2.22,       1.78,       1.18,       1.27,       1.67        ]
+atk = []
+defense = []
+for i in range(len(times)):
+    atk.append(sqrt(offensiveness[i]*power[i]))
+    defense.append(sqrt(offensiveness[i]/(power[i]*1.0)))
+vogal =         [ 'o',       'a',        'a',                'o',        'a',        'a',        'o',    'o',        'a',        'a',            'o',    'a',            'a',        'a',            'a',        'a',        'o',        'a',        'a',        'a',            'a',        'o',        'a',                'a',        'a',        'a',            'a',        'o',        'a',        'o',        'o',        'a'        ]
 
 gramaticaCampeao = []
 for letra in vogal:
@@ -515,8 +526,15 @@ for i in range(numSimuls):
     playFinal(eliminatorias)
 
 if lightSpeed:
+    aux = vezesCampeao[:]
     order_map(times, vezesCampeao, 1)
+    order_map(meta, aux, 1)
     print("Numero de Simulacoes realizadas: {}\nTempo de execucao: {:.2f} segundos".format(numSimuls, time() - inicio))
     print("Media de gols por jogo: {:.2f}".format(gols/(jogos*1.0)))
     for i in range(len(times)):
-        print("{}:\t{}x campeao ->\t{}".format(i+1, vezesCampeao[i], times[i]))
+        if debug:
+            debugMessage = '\t\t[DEVERIA SER: ' + str(meta[i]*numSimuls/10000.0) + ']'
+        else:
+            debugMessage = ''
+        print("{}:\t{}x campeao ->\t{} {}".format(i+1, vezesCampeao[i], times[i], debugMessage))
+        
