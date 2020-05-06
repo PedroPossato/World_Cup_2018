@@ -2,7 +2,7 @@ from math import e, sqrt
 from random import randint, shuffle
 from time import sleep, time
 
-debug = True
+debug = False
 if debug:
     lightSpeed = True
 else:
