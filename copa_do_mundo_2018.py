@@ -16,8 +16,8 @@ gols = 0
 jogos = 0
 
 times =     ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
-atk =       [ 2.02,      1.56,       0.69,               0.71,       1.56,       1.63,       0.6,    0.87,       1.82,       1.5,            1.17,   0.81,           1.5,        1.69,           1.1,        0.67,       2.12,       1.32,       1.56,       1.06,           1.57,       1.05,       0.97,               2.07,       1.13,       1.32,           0.87,       0.67,       1.45,       0.95,       1.25,       1.35       ]
-defense =   [ 1.09,      1.33,       2.44,               1.71,       1.14,       1.17,       1.6,    1.38,       1.23,       1.25,           1.83,   1.94,           1,          1.1,            1.43,       1.67,       1.06,       1.84,       1.33,       1.56,           1.43,       1.7,        2.03,               1.15,       1.8,        1.03,           1.67,       3.67,       1.36,       1.38,       1.13,       1.38       ]
+atk =       [ 2.1,       1.62,       0.72,               0.74,       1.62,       1.7,        0.62,   0.9,        1.89,       1.56,           1.22,   0.84,           1.56,       1.76,           1.14,       0.7,        2.21,       1.37,       1.62,       1.1,            1.63,       1.09,       1.01,               2.15,       1.18,       1.37,           0.9,        0.7,        1.51,       0.99,       1.3,        1.4        ]
+defense =   [ 0.94,      1.15,       2.11,               1.48,       0.99,       1.01,       1.38,   1.19,       1.06,       1.08,           1.58,   1.68,           0.87,       0.95,           1.24,       1.44,       0.92,       1.59,       1.15,       1.35,           1.24,       1.47,       1.76,               0.99,       1.56,       0.89,           1.44,       3.17,       1.18,       1.19,       0.98,       1.19       ]
 vogal =     [ 'o',       'a',        'a',                'o',        'a',        'a',        'o',    'o',        'a',        'a',            'o',    'a',            'a',        'a',            'a',        'a',        'o',        'a',        'a',        'a',            'a',        'o',        'a',                'a',        'a',        'a',            'a',        'o',        'a',        'o',        'o',        'a'        ]
 
 gramaticaCampeao = []
@@ -45,7 +45,7 @@ for i in range(0,len(times),4):
     grupos[i//4].append(times[i+2])
     grupos[i//4].append(times[i+3])
     
-golsMedios = 2 * sum(atk)/len(atk) * sum(defense)/len(defense) / 2.64
+golsMedios = 2 * sum(atk)/len(atk) * sum(defense)/len(defense) / 2.64   # 2.64 = media de gols por partida na copa do mundo de 2018
 
 while True:
     if lightSpeed:
@@ -182,6 +182,10 @@ def match(A, B, knockOut = True, grupo = []):
                 otherEvents(A, B, tempo)
         if not gameMode:
             sleep(0.1)
+    if lightSpeed:
+        global jogos, gols
+        jogos += 1
+        gols = gols + golsA + golsB
     if not knockOut:
         indexA = findIndex(A)
         indexB = findIndex(B)
@@ -225,10 +229,6 @@ def match(A, B, knockOut = True, grupo = []):
     
     if not lightSpeed:
         print("FINAL DE PARTIDA:",A.upper(),golsA,'x',golsB,B.upper())
-    else:
-        global jogos, gols
-        jogos += 1
-        gols = gols + golsA + golsB
     if not knockOut:
         showTable(grupo)
     if not gameMode:
@@ -434,12 +434,12 @@ def playGrupo(grupo):
 
 def playOitavas(grupo):
     match(grupo[0], grupo[3])
-    match(grupo[1], grupo[2])
     match(grupo[4], grupo[7])
-    match(grupo[5], grupo[6])
     match(grupo[8], grupo[11])
-    match(grupo[9], grupo[10])
     match(grupo[12], grupo[15])
+    match(grupo[1], grupo[2])
+    match(grupo[5], grupo[6])
+    match(grupo[9], grupo[10])
     match(grupo[13], grupo[14])
     if not lightSpeed:
         print("AVANCAM PARA AS QUARTAS:")
