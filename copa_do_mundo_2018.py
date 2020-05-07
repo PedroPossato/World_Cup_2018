@@ -2,7 +2,7 @@ from math import e, sqrt
 from random import randint, shuffle
 from time import sleep, time
 
-debug = False
+debug = True
 if debug:
     lightSpeed = True
 else:
@@ -22,7 +22,7 @@ jogos = 0
 if debug:
     meta =      [237,       196,        11,                 53,         1150,       383,        16,     32,         1150,       99,             40,     20,             237,        805,            53,         40,         1788,       99,         53,         20,             80,         99,         16,                 1610,       732,        473,            16,         11,         237,        32,         53,         158         ]
 times =         ['URUGUAI', 'RUSSIA',   'ARABIA SAUDITA',   'EGITO',    'ESPANHA',  'PORTUGAL', 'IRAN', 'MARROCOS', 'FRANCA',   'DINAMARCA',    'PERU', 'AUSTRALIA',    'CROACIA',  'ARGENTINA',    'NIGERIA',  'ISLANDIA', 'BRASIL',   'SUICA',    'SERVIA',   'COSTA RICA',   'SUECIA',   'MEXICO',   'COREIA DO SUL',    'ALEMANHA', 'BELGICA',  'INGLATERRA',   'TUNISIA',  'PANAMA',   'COLOMBIA', 'JAPAO',    'SENEGAL',  'POLONIA'   ]
-power =         [1.405,     1.34,       0.79,               0.992,      2.201,      1.581,      0.753,  0.897,      2.174,      1.147,          1.001,  0.851,          1.425,      1.989,          1.042,      0.95,       2.532,      1.176,      1.056,      0.871,          1.151,      1.18,       0.87,               2.41,       1.86,       1.66,           0.781,      0.801,      1.408,      0.903,      1.004,      1.264       ]
+power =         [1.4052,    1.3407,     0.7873,             0.9909,     2.2011,     1.577,      0.753,  0.8954,     2.17475,    1.1492,         0.99955,0.851,          1.4249,     1.9901,         1.042,      0.95,       2.5319,     1.1801,     1.0558,     0.8717,         1.1509,     1.1802,     0.8691,             2.41,       1.861,      1.65933,        0.785,      0.8011,     1.4091,     0.9028,     1.00367,    1.2681      ]
 offensiveness = [1.97,      1.86,       1.52,               1.1,        1.6,        1.72,       0.86,   1.07,       2,          1.68,           1.93,   1.41,           1.36,       1.67,           1.41,       1.01,       2.03,       2.18,       1.86,       1.49,           2.02,       1.6,        1.78,               2.14,       1.84,       1.22,           1.3,        2.22,       1.78,       1.18,       1.27,       1.67        ]
 atk = []
 defense = []
