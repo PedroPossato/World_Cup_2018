@@ -27,8 +27,19 @@ offensiveness = [1.97,      1.86,       1.52,               1.1,        1.6,    
 atk = []
 defense = []
 for i in range(len(times)):
-    atk.append(sqrt(offensiveness[i]*power[i]))
-    defense.append(sqrt(offensiveness[i]/(power[i]*1.0)))
+    atk.append( sqrt( offensiveness[i] * power[i] ) )
+    defense.append( sqrt( offensiveness[i]/(power[i]*1.0) ) )
+
+# 2.64 = media de gols por partida na copa do mundo de 2018
+mediaGolsSelecao = 2.64
+atkMedio = 2 * sum(atk)/len(atk) * sum(atk)/len(atk) / mediaGolsSelecao
+defenseMedio = 2 * sum(defense)/len(defense) * sum(defense)/len(defense) / mediaGolsSelecao
+
+for i in range(len(times)):
+    atk[i] = atk[i] / sqrt(atkMedio)
+    defense[i] = defense[i] / sqrt(defenseMedio)
+    #print("{:.2f} | {:.2f} ->\t{}".format(atk[i], defense[i], times[i]))
+
 vogal =         [ 'o',       'a',        'a',                'o',        'a',        'a',        'o',    'o',        'a',        'a',            'o',    'a',            'a',        'a',            'a',        'a',        'o',        'a',        'a',        'a',            'a',        'o',        'a',                'a',        'a',        'a',            'a',        'o',        'a',        'o',        'o',        'a'        ]
 
 gramaticaCampeao = []
@@ -56,8 +67,6 @@ for i in range(0,len(times),4):
     grupos[i//4].append(times[i+2])
     grupos[i//4].append(times[i+3])
     
-golsMedios = 2 * sum(atk)/len(atk) * sum(defense)/len(defense) / 2.64   # 2.64 = media de gols por partida na copa do mundo de 2018
-
 while True:
     if lightSpeed:
         gameMode = 1
@@ -127,11 +136,14 @@ def findIndex(x):
 def findLambda(A, B, extraTime = False):
     indexA = findIndex(A)
     indexB = findIndex(B)
-    lambdaA = atk[indexA] * defense[indexB] / golsMedios
-    lambdaB = atk[indexB] * defense[indexA] / golsMedios
+    lambdaA = atk[indexA] * defense[indexB]
+    lambdaB = atk[indexB] * defense[indexA]
     if extraTime:
         lambdaA = lambdaA / 3.0
         lambdaB = lambdaB / 3.0
+    else:
+        if not lightSpeed:
+            print("Resultado esperado: {} {:.2f} vs {:.2f} {}".format(A, lambdaA, lambdaB, B))
     return lambdaA, lambdaB
 
 def draftGoal(lista):
@@ -526,9 +538,10 @@ for i in range(numSimuls):
     playFinal(eliminatorias)
 
 if lightSpeed:
-    aux = vezesCampeao[:]
+    if debug:
+        aux = vezesCampeao[:]
+        order_map(meta, aux, 1)
     order_map(times, vezesCampeao, 1)
-    order_map(meta, aux, 1)
     print("Numero de Simulacoes realizadas: {}\nTempo de execucao: {:.2f} segundos".format(numSimuls, time() - inicio))
     print("Media de gols por jogo: {:.2f}".format(gols/(jogos*1.0)))
     for i in range(len(times)):
